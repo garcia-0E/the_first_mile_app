@@ -1,0 +1,182 @@
+/* Header / nav */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.app-header nav {
+  display: flex;
+  gap: 16px;
+}
+
+.app-header nav a {
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  color: var(--text);
+  transition: background 0.15s;
+}
+
+.app-header nav a:hover,
+.app-header nav a.active {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+/* Page layout */
+.page {
+  max-width: 100%;
+}
+
+/* File upload */
+.file-upload {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.file-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Search form */
+.search-form {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+}
+
+.search-form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.search-form-row label {
+  flex: 1;
+}
+
+.search-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Tables */
+.lead-table-wrapper,
+.draft-table-wrapper {
+  overflow-x: auto;
+  margin-top: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.draft-cell pre {
+  white-space: pre-wrap;
+  font-family: var(--sans);
+  margin: 0;
+  font-size: 13px;
+  max-width: 500px;
+}
+
+/* Draft generation actions */
+.draft-actions {
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.draft-actions button {
+  margin-top: 8px;
+}
+
+/* Button variants */
+.btn-expand {
+  background: #f59e0b;
+}
+
+.btn-expand:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.btn-secondary {
+  background: var(--border);
+  color: var(--text-h);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.btn-apollo {
+  font-size: 13px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 32px;
+  max-width: 440px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.modal h3 {
+  margin: 0 0 12px;
+}
+
+.modal p {
+  margin: 0 0 20px;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* Status messages */
+.status-ok {
+  color: var(--success);
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.status-err {
+  color: var(--danger);
+  font-weight: 500;
+  margin-top: 8px;
+}
