@@ -1,63 +1,132 @@
 import { useState } from 'react';
 
-export default function SearchForm({ onSearch, onExpand, loading }) {
-  const [query, setQuery] = useState('');
-  const [country, setCountry] = useState('');
-  const [seniority, setSeniority] = useState('');
-  const [topK, setTopK] = useState(20);
+const SINGLE_VALUE_FILTERS = [
+  { key: 'country', label: 'Country' },
+  { key: 'partnership_types', label: 'Partnership Type' },
+  { key: 'partnership_offer', label: 'Partnership Offer' },
+  { key: 'stage', label: 'Stage' },
+  { key: 'seniority', label: 'Seniority' },
+  { key: 'title', label: 'Title' },
+];
+
+const EXCLUDE_FILTERS = [
+  { key: 'exclude_industries', label: 'Exclude Industries' },
+  { key: 'company_name_to_exclude', label: 'Exclude Companies' },
+];
+
+const initialState = () => ({
+  description: '',
+  themes: '',
+  target_communities: '',
+  country: '',
+  partnership_types: '',
+  partnership_offer: '',
+  stage: '',
+  seniority: '',
+  title: '',
+  exclude_industries: [],
+  company_name_to_exclude: [],
+  top_k: 20,
+});
+
+export default function SearchForm({ options, onSearch, onExpand, onReset, loading }) {
+  const [values, setValues] = useState(initialState);
+
+  const set = (key) => (e) => {
+    const target = e.target;
+    if (target.multiple) {
+      const selected = Array.from(target.selectedOptions, (o) => o.value);
+      setValues((v) => ({ ...v, [key]: selected }));
+    } else if (target.type === 'number') {
+      setValues((v) => ({ ...v, [key]: Number(target.value) }));
+    } else {
+      setValues((v) => ({ ...v, [key]: target.value }));
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch({
-      query,
-      country: country || undefined,
-      seniority: seniority || undefined,
-      top_k: topK,
-    });
+    onSearch(values);
   };
+
+  const handleReset = () => {
+    setValues(initialState());
+    onReset?.();
+  };
+
+  const opts = options || {};
+  const optionsFor = (key) => opts[key] || [];
 
   return (
     <form className="search-form" onSubmit={handleSubmit}>
       <h3>Search Partners</h3>
 
       <label>
-        Query
+        Description
         <textarea
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={values.description}
+          onChange={set('description')}
           placeholder="Describe the type of partner you're looking for…"
           rows={3}
-          required
         />
       </label>
 
       <div className="search-form-row">
         <label>
-          Country
+          Themes
           <input
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            placeholder="e.g. United States"
+            value={values.themes}
+            onChange={set('themes')}
+            placeholder="e.g. mental health, media literacy"
           />
         </label>
-
         <label>
-          Seniority
+          Target Communities
           <input
-            value={seniority}
-            onChange={(e) => setSeniority(e.target.value)}
-            placeholder="e.g. Director"
+            value={values.target_communities}
+            onChange={set('target_communities')}
+            placeholder="e.g. youth, refugees"
           />
         </label>
+      </div>
 
+      <div className="search-form-grid">
+        {SINGLE_VALUE_FILTERS.map(({ key, label }) => (
+          <label key={key}>
+            {label}
+            <select value={values[key]} onChange={set(key)}>
+              <option value="">Any</option>
+              {optionsFor(key).map((v) => (
+                <option key={v} value={v}>
+                  {v}
+                </option>
+              ))}
+            </select>
+          </label>
+        ))}
+      </div>
+
+      <div className="search-form-row">
+        {EXCLUDE_FILTERS.map(({ key, label }) => (
+          <label key={key}>
+            {label}
+            <select multiple value={values[key]} onChange={set(key)} size={4}>
+              {optionsFor(key).map((v) => (
+                <option key={v} value={v}>
+                  {v}
+                </option>
+              ))}
+            </select>
+          </label>
+        ))}
         <label>
-          Top K
+          Top Results
           <input
             type="number"
             min={1}
             max={100}
-            value={topK}
-            onChange={(e) => setTopK(Number(e.target.value))}
+            value={values.top_k}
+            onChange={set('top_k')}
           />
         </label>
       </div>
@@ -68,6 +137,9 @@ export default function SearchForm({ onSearch, onExpand, loading }) {
         </button>
         <button type="button" className="btn-expand" onClick={onExpand} disabled={loading}>
           Expand
+        </button>
+        <button type="button" className="btn-secondary" onClick={handleReset} disabled={loading}>
+          Reset
         </button>
       </div>
     </form>

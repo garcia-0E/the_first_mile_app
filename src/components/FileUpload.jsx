@@ -26,6 +26,9 @@ export default function FileUpload() {
   return (
     <div className="file-upload">
       <h3>Upload Leads CSV</h3>
+      <p className="file-upload-description">
+        Here you can upload your leads for us to find similarities in our database and enhance the results.
+      </p>
       <div className="file-upload-row">
         <input type="file" accept=".csv" ref={fileRef} />
         <button onClick={handleUpload} disabled={loading}>

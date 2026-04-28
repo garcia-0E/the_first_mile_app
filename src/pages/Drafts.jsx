@@ -1,9 +1,9 @@
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useAppState } from '../AppContext';
 import DraftTable from '../components/DraftTable';
 
 export default function Drafts() {
-  const { state } = useLocation();
-  const drafts = state?.drafts || [];
+  const { drafts } = useAppState();
 
   const handleSendToApollo = async (draft) => {
     // TODO: integrate with Apollo API
