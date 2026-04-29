@@ -1,6 +1,6 @@
 const BASE = import.meta.env.DEV
   ? '/api'
-  : 'https://cloudrun-service-tfm-hldtgmwh2a-uc.a.run.app';
+  : 'https://cloudrun-service-tfm-725722089.us-central1.run.app';
 
 export async function uploadCSV(file) {
   const form = new FormData();
